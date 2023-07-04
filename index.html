@@ -42,11 +42,17 @@
             // Clear the canvas
             context.clearRect(0, 0, canvasWidth, canvasHeight);
 
-            // Generate random target points
+            // Generate target points forming a circle
             var targetPoints = [];
+            var centerX = canvasWidth / 2;
+            var centerY = canvasHeight / 2;
+            var radius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
+            var angleIncrement = (2 * Math.PI) / numPoints;
+
             for (var i = 0; i < numPoints; i++) {
-                var x = Math.floor(Math.random() * canvasWidth);
-                var y = Math.floor(Math.random() * canvasHeight);
+                var angle = i * angleIncrement;
+                var x = centerX + radius * Math.cos(angle);
+                var y = centerY + radius * Math.sin(angle);
                 targetPoints.push({ x: x, y: y });
             }
 
@@ -73,8 +79,8 @@
         // Get the canvas element
         var canvas = document.getElementById('canvas');
 
-        // Initialize the Chaos Game with 3 target points
-        initializeChaosGame(canvas, 3);
+        // Initialize the Chaos Game with 5 target points forming a circle
+        initializeChaosGame(canvas, 5);
     </script>
 </body>
 </html>

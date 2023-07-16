@@ -13,11 +13,10 @@ function calculateMidpoint(p1, p2) {
 	return { x: x, y: y };
 }
 
-const vecLerp = (v1, v2, factor = .5) =>
-	v1.map ((_, idx) => 
-		v1 [idx] * (1 - factor) +
-		v2 [idx] * factor
-	)
+function vecLerp(v1, v2, factor = 0.5) {
+	return v1.map((coord, idx) => coord * (1 - factor) + v2[idx] * factor);
+  }
+  
 
 // Function to draw a point on the canvas
 function drawPoint(context, point, color) {
@@ -28,31 +27,26 @@ function drawPoint(context, point, color) {
 // Function to initialize the Chaos Game
 function initializeChaosGame(canvas, numPoints) {
 	var context = canvas.getContext('2d');
-	var canvasWidth = canvas.width;
-	var canvasHeight = canvas.height;
+	var canvasSize = [canvas.width, canvas.height];
 
 	// Clear the canvas
-	context.clearRect(0, 0, canvasWidth, canvasHeight);
+	context.clearRect(0, 0, ...canvasSize);
 
 	// Generate target points forming a circle
 	var targetPoints = [];
-	var centerX = canvasWidth / 2;
-	var centerY = canvasHeight / 2;
-	var radius = Math.min(canvasWidth, canvasHeight) / 2;
+	var center = canvasSize.map (x => x / 2);
+	var radius = Math.min(...canvasSize) / 2;
 	var angleIncrement = (2 * Math.PI) / numPoints;
 
 	for (var i = 0; i < numPoints; i++) {
 		var angle = i * angleIncrement;
-		var x = centerX + radius * Math.cos(angle);
-		var y = centerY + radius * Math.sin(angle);
-		targetPoints.push({ x: x, y: y });
+		var x = center[0] + radius * Math.cos(angle);
+		var y = center[1] + radius * Math.sin(angle);
+		targetPoints.push([x, y]);
 	}
 
 	// Pick a random starting point
-	var currentPoint = {
-		x: Math.floor(Math.random() * canvasWidth),
-		y: Math.floor(Math.random() * canvasHeight)
-	};
+	var currentPoint = canvasSize.map (x => x * Math.random())
 
 	// Iterate and draw the chaos game
 	for (var i = 0; i < 100000; i++) {
@@ -61,10 +55,10 @@ function initializeChaosGame(canvas, numPoints) {
 		var targetPoint = targetPoints[targetIndex];
 
 		// Calculate the midpoint between the current point and the target point
-		currentPoint = calculateMidpoint(currentPoint, targetPoint);
+		currentPoint = vecLerp(currentPoint, targetPoint);
 
 		// Draw the midpoint
-		drawPoint(context, currentPoint, getRandomColor());
+		drawPoint(context, {x: currentPoint[0], y: currentPoint[1]}, getRandomColor());
 	}
 }
 

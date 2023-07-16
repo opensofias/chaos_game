@@ -13,6 +13,12 @@ function calculateMidpoint(p1, p2) {
 	return { x: x, y: y };
 }
 
+const vecLerp = (v1, v2, factor = .5) =>
+	v1.map ((_, idx) => 
+		v1 [idx] * 1 - factor +
+		v2 [idx] * factor
+	)
+
 // Function to draw a point on the canvas
 function drawPoint(context, point, color) {
 	context.fillStyle = color;

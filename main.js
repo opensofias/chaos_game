@@ -21,7 +21,7 @@ function vecLerp(v1, v2, factor = 0.5) {
 // Function to draw a point on the canvas
 function drawPoint(context, point, color) {
 	context.fillStyle = color;
-	context.fillRect(point.x, point.y, 1, 1);
+	context.fillRect(...point, 1, 1);
 }
 
 // Function to initialize the Chaos Game
@@ -58,7 +58,7 @@ function initializeChaosGame(canvas, numPoints) {
 		currentPoint = vecLerp(currentPoint, targetPoint);
 
 		// Draw the midpoint
-		drawPoint(context, {x: currentPoint[0], y: currentPoint[1]}, getRandomColor());
+		drawPoint(context, currentPoint, getRandomColor());
 	}
 }
 

@@ -38,7 +38,7 @@ function initializeChaosGame(canvas, numPoints) {
 	var targetPoints = [];
 	var centerX = canvasWidth / 2;
 	var centerY = canvasHeight / 2;
-	var radius = Math.min(canvasWidth, canvasHeight) / 2 - 10;
+	var radius = Math.min(canvasWidth, canvasHeight) / 2;
 	var angleIncrement = (2 * Math.PI) / numPoints;
 
 	for (var i = 0; i < numPoints; i++) {

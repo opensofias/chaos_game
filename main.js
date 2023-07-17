@@ -7,13 +7,6 @@ const getRandomColor = () => [
 	Math.floor(Math.random() * 256),
 ]
 
-// Function to calculate the midpoint between two points
-function calculateMidpoint(p1, p2) {
-	var x = (p1.x + p2.x) / 2;
-	var y = (p1.y + p2.y) / 2;
-	return { x: x, y: y };
-}
-
 const vecLerp = (v1, v2, factor = .5) =>
 	v1.map ((_, idx) => 
 		v1 [idx] * (1 - factor) +

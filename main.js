@@ -1,10 +1,11 @@
+import { hyperIter } from "./tools.js";
+
 // Function to generate random RGB color values
-function getRandomColor() {
-	var r = Math.floor(Math.random() * 256);
-	var g = Math.floor(Math.random() * 256);
-	var b = Math.floor(Math.random() * 256);
-	return 'rgb(' + r + ',' + g + ',' + b + ')';
-}
+const getRandomColor = () => [
+	Math.floor(Math.random() * 256),
+	Math.floor(Math.random() * 256),
+	Math.floor(Math.random() * 256),
+]
 
 // Function to calculate the midpoint between two points
 function calculateMidpoint(p1, p2) {
@@ -21,7 +22,7 @@ const vecLerp = (v1, v2, factor = .5) =>
 
 // Function to draw a point on the canvas
 function drawPoint(context, point, color) {
-	context.fillStyle = color;
+	context.fillStyle = 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')';
 	context.fillRect(...point, 1, 1);
 }
 
@@ -43,23 +44,32 @@ function initializeChaosGame(canvas, numPoints) {
 		var angle = i * angleIncrement;
 		var x = center[0] + radius * Math.cos(angle);
 		var y = center[1] + radius * Math.sin(angle);
-		targetPoints.push([x, y]);
+		targetPoints.push({
+			position: [x, y],
+			color: getRandomColor()
+		});
 	}
 
 	// Pick a random starting point
-	var currentPoint = canvasSize.map (x => x * Math.random())
+	var currentPoint = {
+		position: canvasSize.map (x => x * Math.random()),
+		color: getRandomColor ()
+	}
 
 	// Iterate and draw the chaos game
-	for (var i = 0; i < 100000; i++) {
+	for (var i = 0; i < 1000000; i++) {
 		// Pick a random target point
 		var targetIndex = Math.floor(Math.random() * numPoints);
 		var targetPoint = targetPoints[targetIndex];
 
 		// Calculate the midpoint between the current point and the target point
-		currentPoint = vecLerp(currentPoint, targetPoint);
+		currentPoint = {
+			position: vecLerp (currentPoint.position, targetPoint.position),
+			color: vecLerp (currentPoint.color, targetPoint.color)
+		};
 
 		// Draw the midpoint
-		drawPoint(context, currentPoint, getRandomColor());
+		drawPoint(context, currentPoint.position, currentPoint.color);
 	}
 }
 

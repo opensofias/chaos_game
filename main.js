@@ -32,14 +32,21 @@ function initializeChaosGame(canvas, numPoints) {
 	var center = canvasSize.map (x => x / 2);
 	var radius = Math.min(...canvasSize) / 2;
 	var angleIncrement = (2 * Math.PI) / numPoints;
+	const thirdAngle = Math.PI * 2 / 3
+	const rotationFactor = 2
 
 	for (var i = 0; i < numPoints; i++) {
 		var angle = i * angleIncrement;
-		var x = center[0] + radius * Math.cos(angle);
-		var y = center[1] + radius * Math.sin(angle);
 		targetPoints.push({
-			position: [x, y],
-			color: getRandomColor()
+			position: [
+				center[0] + radius * Math.cos(angle),
+				center[1] + radius * Math.sin(angle)
+			],
+			color: [
+				128 + Math.cos (rotationFactor * (angle - thirdAngle)) * 128,
+				128 + Math.cos (rotationFactor * angle) * 128,
+				128 + Math.cos (rotationFactor * (angle + thirdAngle)) * 128
+			]
 		});
 	}
 

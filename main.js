@@ -19,6 +19,8 @@ function drawPoint(context, point, color) {
 	context.fillRect(...point, 1, 1);
 }
 
+const mod = (a, b) => (a % b + b) % b
+
 // Function to initialize the Chaos Game
 function initializeChaosGame(canvas, numPoints) {
 	var context = canvas.getContext('2d');

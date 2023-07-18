@@ -56,11 +56,20 @@ function initializeChaosGame(canvas, numPoints) {
 		color: getRandomColor ()
 	}
 
+	const history = []
+
 	// Iterate and draw the chaos game
 	for (var i = 0; i < 1000000; i++) {
 		// Pick a random target point
 		var targetIndex = Math.floor(Math.random() * numPoints);
 		var targetPoint = targetPoints[targetIndex];
+
+		if (
+			false /* <- replace this with constraint */
+		) continue
+
+		history.unshift (targetIndex);
+		(history.length >= 16) && history.pop()
 
 		// Calculate the midpoint between the current point and the target point
 		currentPoint = {

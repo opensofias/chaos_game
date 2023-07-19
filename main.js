@@ -60,6 +60,16 @@ function initializeChaosGame(canvas, numPoints) {
 
 	const history = []
 
+	const linearDiff = (...points) =>
+		mod (points [1] - points [0], numPoints)
+
+	const quadraticDiff = (...points) =>
+		mod (
+			mod (points [2] - points [1], numPoints) -
+			mod (points [1] - points [0], numPoints),
+			numPoints
+		)
+
 	// Iterate and draw the chaos game
 	for (var i = 0; i < 2**20; i++) {
 		// Pick a random target point
@@ -67,7 +77,8 @@ function initializeChaosGame(canvas, numPoints) {
 		var targetPoint = targetPoints[targetIndex]
 
 		if (
-			false /* <- replace this with constraint */
+			[].includes (linearDiff (targetIndex, ...history)) ||
+			[].includes (quadraticDiff (targetIndex, ...history))
 		) continue
 
 		history.unshift (targetIndex);
@@ -88,4 +99,4 @@ function initializeChaosGame(canvas, numPoints) {
 var canvas = document.getElementById('canvas');
 
 // Initialize the Chaos Game with 5 target points forming a circle
-initializeChaosGame(canvas, 5);
+initializeChaosGame(canvas, 6);

@@ -61,7 +61,7 @@ function initializeChaosGame(canvas, numPoints) {
 	const history = []
 
 	// Iterate and draw the chaos game
-	for (var i = 0; i < 1000000; i++) {
+	for (var i = 0; i < 2**20; i++) {
 		// Pick a random target point
 		var targetIndex = Math.floor(Math.random() * numPoints)
 		var targetPoint = targetPoints[targetIndex]

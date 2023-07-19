@@ -60,12 +60,12 @@ function initializeChaosGame(canvas, numPoints) {
 
 	const history = []
 
-	const linearDiff = (...points) =>
-		mod (points [1] - points [0], numPoints)
+	const linearDiff = (points, offset = 0) =>
+		mod (points [1 + offset] - points [0], numPoints)
 
-	const quadraticDiff = (...points) =>
+	const quadraticDiff = (points, offset = 0) =>
 		mod (
-			mod (points [2] - points [1], numPoints) -
+			mod (points [2 + offset] - points [1 + offset], numPoints) -
 			mod (points [1] - points [0], numPoints),
 			numPoints
 		)
@@ -77,8 +77,8 @@ function initializeChaosGame(canvas, numPoints) {
 		var targetPoint = targetPoints[targetIndex]
 
 		if (
-			[].includes (linearDiff (targetIndex, ...history)) ||
-			[].includes (quadraticDiff (targetIndex, ...history))
+			[].includes (linearDiff ([targetIndex, ...history])) ||
+			[].includes (quadraticDiff ([targetIndex, ...history]))
 		) continue
 
 		history.unshift (targetIndex);

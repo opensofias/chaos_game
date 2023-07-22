@@ -14,9 +14,12 @@ const vecLerp = (v1, v2, factor = .5) =>
 	)
 
 // Function to draw a point on the canvas
-function drawPoint(context, point, color) {
-	context.fillStyle = 'rgb(' + color[0] + ',' + color[1] + ',' + color[2] + ')'
-	context.fillRect(...point, 1, 1)
+function drawPoint(imageData, point, color) {
+	const idx = ((0|point[1]) * imageData.width + (0|point[0])) * 4;
+	imageData.data[idx] = color[0];
+	imageData.data[idx + 1] = color[1];
+	imageData.data[idx + 2] = color[2];
+	imageData.data[idx + 3] = 255;
 }
 
 const mod = (a, b) => (a % b + b) % b
@@ -25,6 +28,7 @@ const mod = (a, b) => (a % b + b) % b
 function initializeChaosGame(canvas, numPoints) {
 	var context = canvas.getContext('2d')
 	var canvasSize = [canvas.width, canvas.height]
+	const imageData = new ImageData(canvas.width, canvas.height);
 
 	// Clear the canvas
 	context.clearRect(0, 0, ...canvasSize);
@@ -91,8 +95,10 @@ function initializeChaosGame(canvas, numPoints) {
 		};
 
 		// Draw the midpoint
-		drawPoint(context, currentPoint.position, currentPoint.color)
+		drawPoint(imageData, currentPoint.position, currentPoint.color)
 	}
+
+	context.putImageData(imageData, 0, 0);
 }
 
 // Get the canvas element

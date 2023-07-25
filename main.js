@@ -1,6 +1,5 @@
 import { hyperIter } from "./tools.js";
 
-// Function to generate random RGB color values
 const getRandomColor = () => [
 	Math.floor(Math.random() * 256),
 	Math.floor(Math.random() * 256),
@@ -13,7 +12,6 @@ const vecLerp = (v1, v2, factor = .5) =>
 		v2 [idx] * factor
 	)
 
-// Function to draw a point on the canvas
 function drawPoint(imageData, point, color) {
 	const idx = ((0|point[1]) * imageData.width + (0|point[0])) * 4;
 	imageData.data[idx] = color[0];
@@ -29,16 +27,13 @@ const recurDiff = depth => (history, offset = 1, first = 0) =>
 		recurDiff (depth - 1) (history, 1, first + offset) -
 		recurDiff (depth - 1) (history, 1, first)
 
-// Function to initialize the Chaos Game
 function initializeChaosGame(canvas, numPoints) {
 	var context = canvas.getContext('2d')
 	var canvasSize = [canvas.width, canvas.height]
 	const imageData = new ImageData(canvas.width, canvas.height);
 
-	// Clear the canvas
 	context.clearRect(0, 0, ...canvasSize);
 
-	// Generate target points forming a circle
 	var targetPoints = []
 	var center = canvasSize.map (x => x / 2)
 	var radius = Math.min(...canvasSize) / 2
@@ -61,7 +56,6 @@ function initializeChaosGame(canvas, numPoints) {
 		});
 	}
 
-	// Pick a random starting point
 	var currentPoint = {
 		position: canvasSize.map (x => x * Math.random()),
 		color: getRandomColor ()
@@ -73,9 +67,7 @@ function initializeChaosGame(canvas, numPoints) {
 		mod (recurDiff (depth) (history , offset), numPoints)
 	)
 
-	// Iterate and draw the chaos game
 	for (var i = 0; i < 2**20; i++) {
-		// Pick a random target point
 		var targetIndex = Math.floor(Math.random() * numPoints)
 		var targetPoint = targetPoints[targetIndex]
 
@@ -87,21 +79,17 @@ function initializeChaosGame(canvas, numPoints) {
 		history.unshift (targetIndex);
 		(history.length >= 16) && history.pop()
 
-		// Calculate the midpoint between the current point and the target point
 		currentPoint = {
 			position: vecLerp (currentPoint.position, targetPoint.position),
 			color: vecLerp (currentPoint.color, targetPoint.color)
 		};
 
-		// Draw the midpoint
 		drawPoint(imageData, currentPoint.position, currentPoint.color)
 	}
 
 	context.putImageData(imageData, 0, 0);
 }
 
-// Get the canvas element
 var canvas = document.getElementById('canvas');
 
-// Initialize the Chaos Game with 5 target points forming a circle
 initializeChaosGame(canvas, 5);

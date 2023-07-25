@@ -104,4 +104,4 @@ function initializeChaosGame(canvas, numPoints) {
 var canvas = document.getElementById('canvas');
 
 // Initialize the Chaos Game with 5 target points forming a circle
-initializeChaosGame(canvas, 6);
+initializeChaosGame(canvas, 5);

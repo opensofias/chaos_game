@@ -24,6 +24,11 @@ function drawPoint(imageData, point, color) {
 
 const mod = (a, b) => (a % b + b) % b
 
+const recurDiff = depth => (history, offset = 1, first = 0) =>
+	depth == 0 ? history [first] :
+		recurDiff (depth - 1) (history, 1, first + offset) -
+		recurDiff (depth - 1) (history, 1, first)
+
 // Function to initialize the Chaos Game
 function initializeChaosGame(canvas, numPoints) {
 	var context = canvas.getContext('2d')
@@ -64,15 +69,9 @@ function initializeChaosGame(canvas, numPoints) {
 
 	const history = []
 
-	const linearDiff = (points, offset = 0) =>
-		mod (points [1 + offset] - points [0], numPoints)
-
-	const quadraticDiff = (points, offset = 0) =>
-		mod (
-			mod (points [2 + offset] - points [1 + offset], numPoints) -
-			mod (points [1] - points [0], numPoints),
-			numPoints
-		)
+	const [linearDiff, quadraticDiff] = [1, 2].map (depth => (history, offset) =>
+		mod (recurDiff (depth) (history , offset), numPoints)
+	)
 
 	// Iterate and draw the chaos game
 	for (var i = 0; i < 2**20; i++) {

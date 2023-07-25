@@ -64,7 +64,7 @@ function initializeChaosGame(canvas, numPoints) {
 	const history = []
 
 	const [linearDiff, quadraticDiff] = [1, 2].map (depth => (history, offset) =>
-		mod (recurDiff (depth) (history , offset), numPoints)
+		mod (recurDiff (depth) (history, offset), numPoints)
 	)
 
 	for (var i = 0; i < 2**20; i++) {

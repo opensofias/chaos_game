@@ -13,11 +13,10 @@ const vecLerp = (v1, v2, factor = .5) =>
 	)
 
 function drawPoint(imageData, point, color) {
-	const idx = ((0|point[1]) * imageData.width + (0|point[0])) * 4;
-	imageData.data[idx] = color[0];
-	imageData.data[idx + 1] = color[1];
-	imageData.data[idx + 2] = color[2];
-	imageData.data[idx + 3] = 255;
+	const pixelIdx = ((0|point[1]) * imageData.width + (0|point[0])) * 4;
+	[...color, 255].forEach ((val, idx) =>
+		imageData.data[pixelIdx + idx] = val
+	)
 }
 
 const mod = (a, b) => (a % b + b) % b

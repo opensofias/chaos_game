@@ -47,11 +47,9 @@ const initializeChaosGame = (canvas, numPoints) => {
 				center[0] + radius * Math.cos(angle),
 				center[1] + radius * Math.sin(angle)
 			],
-			color: [
-				128 + Math.cos (rotationFactor * (angle - thirdAngle)) * 128,
-				128 + Math.cos (rotationFactor * angle) * 128,
-				128 + Math.cos (rotationFactor * (angle + thirdAngle)) * 128
-			]
+			color: [-thirdAngle, 0, thirdAngle].map (channelOffset =>
+				128 + Math.cos (rotationFactor * (angle + channelOffset)) * 128
+			)
 		});
 	}
 

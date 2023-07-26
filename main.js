@@ -20,6 +20,11 @@ const recurDiff = depth => (history, offset = 1, first = 0) =>
 		recurDiff (depth - 1) (history, 1, first + offset) -
 		recurDiff (depth - 1) (history, 1, first)
 
+const recurSum = depth => (history, offset = 1, first = 0) =>
+	depth == 0 ? history [first] :
+		recurSum (depth - 1) (history, 1, first + offset) +
+		recurSum (depth - 1) (history, 1, first)
+
 const initializeChaosGame = (canvas, numPoints) => {
 	const context = canvas.getContext('2d')
 	const canvasSize = [canvas.width, canvas.height]
@@ -58,6 +63,10 @@ const initializeChaosGame = (canvas, numPoints) => {
 		mod (recurDiff (depth) (history, offset), numPoints)
 	)
 
+	const [linearSum, quadraticSum] = [1, 2].map (depth => (history, offset) =>
+		mod (recurSum (depth) (history, offset), numPoints)
+	)
+
 	for (let i = 0; i < 2**20; i++) {
 		const targetIndex = Math.floor(Math.random() * numPoints)
 		const targetPoint = targetPoints[targetIndex]
@@ -65,6 +74,7 @@ const initializeChaosGame = (canvas, numPoints) => {
 
 		if (
 			[].includes (linearDiff (history)) ||
+			[].includes (linearSum (history)) ||
 			[].includes (quadraticDiff (history))
 		) {
 			history.shift ();

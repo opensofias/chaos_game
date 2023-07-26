@@ -70,13 +70,16 @@ function initializeChaosGame(canvas, numPoints) {
 	for (var i = 0; i < 2**20; i++) {
 		var targetIndex = Math.floor(Math.random() * numPoints)
 		var targetPoint = targetPoints[targetIndex]
+		history.unshift (targetIndex);
 
 		if (
-			[].includes (linearDiff ([targetIndex, ...history])) ||
-			[].includes (quadraticDiff ([targetIndex, ...history]))
-		) continue
+			[].includes (linearDiff (history)) ||
+			[].includes (quadraticDiff (history))
+		) {
+			history.shift ();
+			continue
+		}
 
-		history.unshift (targetIndex);
 		(history.length >= 16) && history.pop()
 
 		currentPoint = {

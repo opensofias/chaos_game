@@ -12,7 +12,7 @@ const vecLerp = (v1, v2, factor = .5) =>
 		v2 [idx] * factor
 	)
 
-function drawPoint(imageData, point, color) {
+const drawPoint = (imageData, point, color) => {
 	const pixelIdx = ((0|point[1]) * imageData.width + (0|point[0])) * 4;
 	[...color, 255].forEach ((val, idx) =>
 		imageData.data[pixelIdx + idx] = val
@@ -26,7 +26,7 @@ const recurDiff = depth => (history, offset = 1, first = 0) =>
 		recurDiff (depth - 1) (history, 1, first + offset) -
 		recurDiff (depth - 1) (history, 1, first)
 
-function initializeChaosGame(canvas, numPoints) {
+const initializeChaosGame = (canvas, numPoints) => {
 	const context = canvas.getContext('2d')
 	const canvasSize = [canvas.width, canvas.height]
 	const imageData = new ImageData(...canvasSize);

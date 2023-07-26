@@ -1,11 +1,5 @@
 import { hyperIter } from "./tools.js";
 
-const getRandomColor = () => [
-	Math.floor(Math.random() * 256),
-	Math.floor(Math.random() * 256),
-	Math.floor(Math.random() * 256),
-]
-
 const vecLerp = (v1, v2, factor = .5) =>
 	v1.map ((_, idx) => 
 		v1 [idx] * (1 - factor) +
@@ -55,7 +49,7 @@ const initializeChaosGame = (canvas, numPoints) => {
 
 	let currentPoint = {
 		position: canvasSize.map (x => x * Math.random()),
-		color: getRandomColor ()
+		color: [128, 128, 128]
 	}
 
 	const history = []

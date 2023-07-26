@@ -28,21 +28,21 @@ const recurDiff = depth => (history, offset = 1, first = 0) =>
 		recurDiff (depth - 1) (history, 1, first)
 
 function initializeChaosGame(canvas, numPoints) {
-	var context = canvas.getContext('2d')
-	var canvasSize = [canvas.width, canvas.height]
+	const context = canvas.getContext('2d')
+	const canvasSize = [canvas.width, canvas.height]
 	const imageData = new ImageData(...canvasSize);
 
 	context.clearRect(0, 0, ...canvasSize);
 
-	var targetPoints = []
-	var center = canvasSize.map (x => x / 2)
-	var radius = Math.min(...canvasSize) / 2
-	var angleIncrement = (2 * Math.PI) / numPoints
+	const targetPoints = []
+	const center = canvasSize.map (x => x / 2)
+	const radius = Math.min(...canvasSize) / 2
+	const angleIncrement = (2 * Math.PI) / numPoints
 	const thirdAngle = Math.PI * 2 / 3
 	const rotationFactor = 2
 
-	for (var i = 0; i < numPoints; i++) {
-		var angle = i * angleIncrement;
+	for (let i = 0; i < numPoints; i++) {
+		let angle = i * angleIncrement;
 		targetPoints.push({
 			position: [
 				center[0] + radius * Math.cos(angle),
@@ -56,7 +56,7 @@ function initializeChaosGame(canvas, numPoints) {
 		});
 	}
 
-	var currentPoint = {
+	let currentPoint = {
 		position: canvasSize.map (x => x * Math.random()),
 		color: getRandomColor ()
 	}
@@ -67,9 +67,9 @@ function initializeChaosGame(canvas, numPoints) {
 		mod (recurDiff (depth) (history, offset), numPoints)
 	)
 
-	for (var i = 0; i < 2**20; i++) {
-		var targetIndex = Math.floor(Math.random() * numPoints)
-		var targetPoint = targetPoints[targetIndex]
+	for (let i = 0; i < 2**20; i++) {
+		const targetIndex = Math.floor(Math.random() * numPoints)
+		const targetPoint = targetPoints[targetIndex]
 		history.unshift (targetIndex);
 
 		if (
@@ -93,6 +93,6 @@ function initializeChaosGame(canvas, numPoints) {
 	context.putImageData(imageData, 0, 0);
 }
 
-var canvas = document.getElementById('canvas');
+const canvas = document.getElementById('canvas');
 
 initializeChaosGame(canvas, 5);

@@ -30,7 +30,7 @@ const recurDiff = depth => (history, offset = 1, first = 0) =>
 function initializeChaosGame(canvas, numPoints) {
 	var context = canvas.getContext('2d')
 	var canvasSize = [canvas.width, canvas.height]
-	const imageData = new ImageData(canvas.width, canvas.height);
+	const imageData = new ImageData(...canvasSize);
 
 	context.clearRect(0, 0, ...canvasSize);
 

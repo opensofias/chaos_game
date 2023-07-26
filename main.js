@@ -96,4 +96,4 @@ const initializeChaosGame = (canvas, numPoints) => {
 
 const canvas = document.getElementById('canvas');
 
-initializeChaosGame(canvas, 6);
+initializeChaosGame(canvas, 5);

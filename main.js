@@ -56,11 +56,11 @@ const initializeChaosGame = (canvas, numPoints) => {
 	const history = []
 
 	const [Δ, ΔΔ, ΔΔΔ, ΔΔΔΔ] = [1, 2, 3, 4].map (depth => (history, offset) =>
-		mod (recurDiff (depth) (history, offset), numPoints)
+		mod (recurOp ((x, y) => x - y) (depth) (history, offset), numPoints)
 	)
 
 	const [Σ, ΣΣ, ΣΣΣ, ΣΣΣΣ] = [1, 2, 3, 4].map (depth => (history, offset) =>
-		mod (recurSum (depth) (history, offset), numPoints)
+		mod (recurOp ((x, y) => x + y) (depth) (history, offset), numPoints)
 	)
 
 	for (let i = 0; i < 2**20; i++) {

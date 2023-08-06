@@ -15,15 +15,15 @@ const drawPoint = (imageData, point, color) => {
 
 const mod = (a, b) => (a % b + b) % b
 
-const recurDiff = depth => (history, offset = 1, first = 0) =>
-	depth == 0 ? history [first] :
-		recurDiff (depth - 1) (history, 1, first + offset) -
+const recurOp = op => depth => (history, offset = 1, first = 0) =>
+	depth == 0 ? history [first] : op (
+		recurDiff (depth - 1) (history, 1, first + offset),
 		recurDiff (depth - 1) (history, 1, first)
+	)
 
-const recurSum = depth => (history, offset = 1, first = 0) =>
-	depth == 0 ? history [first] :
-		recurSum (depth - 1) (history, 1, first + offset) +
-		recurSum (depth - 1) (history, 1, first)
+const recurDiff = recurOp ((x, y) => x - y)
+
+const recurSum = recurOp ((x, y) => x + y)
 
 const initializeChaosGame = (canvas, numPoints) => {
 	const context = canvas.getContext('2d')

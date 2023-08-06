@@ -17,13 +17,9 @@ const mod = (a, b) => (a % b + b) % b
 
 const recurOp = op => depth => (history, offset = 1, first = 0) =>
 	depth == 0 ? history [first] : op (
-		recurDiff (depth - 1) (history, 1, first + offset),
-		recurDiff (depth - 1) (history, 1, first)
+		recurOp (depth - 1) (history, 1, first + offset),
+		recurOp (depth - 1) (history, 1, first)
 	)
-
-const recurDiff = recurOp ((x, y) => x - y)
-
-const recurSum = recurOp ((x, y) => x + y)
 
 const initializeChaosGame = (canvas, numPoints) => {
 	const context = canvas.getContext('2d')

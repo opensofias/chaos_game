@@ -17,8 +17,8 @@ const mod = (a, b) => (a % b + b) % b
 
 const recurOp = op => depth => (history, offset = 1, first = 0) =>
 	depth == 0 ? history [first] : op (
-		recurOp (depth - 1) (history, 1, first + offset),
-		recurOp (depth - 1) (history, 1, first)
+		recurOp (op) (depth - 1) (history, 1, first + offset),
+		recurOp (op) (depth - 1) (history, 1, first)
 	)
 
 const initializeChaosGame = (canvas, numPoints) => {

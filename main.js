@@ -15,11 +15,12 @@ const drawPoint = (imageData, point, color) => {
 
 const mod = (a, b) => (a % b + b) % b
 
-const recurOp = op => depth => (history, offset = 1, first = 0) =>
-	depth == 0 ? history [first] : op (
-		recurOp (op) (depth - 1) (history, 1, first + offset),
-		recurOp (op) (depth - 1) (history, 1, first)
-	)
+const recurOp = (op, base) => (history, depth = 1, offset = 1, first = 0) =>
+	depth == 0 ? history [first] :
+	mod (op (
+		recurOp (op, base) (history, depth - 1, 1, first + offset),
+		recurOp (op, base) (history, depth - 1, 1, first)
+	), base)
 
 const initializeChaosGame = (canvas, numPoints) => {
 	const context = canvas.getContext('2d')
@@ -59,9 +60,7 @@ const initializeChaosGame = (canvas, numPoints) => {
 		(x, y) => x + y,
 		(x, y) => x - y,
 		(x, y) => x * y
-	].map (fun => (history, depth = 1, offset) =>
-		mod (recurOp (fun) (depth) (history, offset), numPoints)
-	)
+	].map (fun => (recurOp (fun, numPoints)))
 
 	for (let i = 0; i < 2**20; i++) {
 		const targetIndex = Math.floor(Math.random() * numPoints)

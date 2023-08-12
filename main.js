@@ -55,12 +55,11 @@ const initializeChaosGame = (canvas, numPoints) => {
 
 	const history = []
 
-	const [Δ, ΔΔ, ΔΔΔ, ΔΔΔΔ] = [1, 2, 3, 4].map (depth => (history, offset) =>
-		mod (recurOp ((x, y) => x - y) (depth) (history, offset), numPoints)
-	)
-
-	const [Σ, ΣΣ, ΣΣΣ, ΣΣΣΣ] = [1, 2, 3, 4].map (depth => (history, offset) =>
-		mod (recurOp ((x, y) => x + y) (depth) (history, offset), numPoints)
+	const [Σ, Δ] = [
+		(x, y) => x + y,
+		(x, y) => x - y
+	].map (fun => (history, depth = 1, offset) =>
+		mod (recurOp (fun) (depth) (history, offset), numPoints)
 	)
 
 	for (let i = 0; i < 2**20; i++) {
@@ -70,8 +69,7 @@ const initializeChaosGame = (canvas, numPoints) => {
 
 		if (
 			[].includes (Δ (history)) ||
-			[].includes (Σ (history)) ||
-			[].includes (ΔΔ (history))
+			[].includes (Σ (history))
 		) {
 			history.shift ();
 			continue
@@ -92,4 +90,4 @@ const initializeChaosGame = (canvas, numPoints) => {
 
 const canvas = document.getElementById('canvas');
 
-initializeChaosGame(canvas, 5);
+initializeChaosGame(canvas, 6);

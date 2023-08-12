@@ -31,18 +31,16 @@ const makeTargetPoints = (
 
 	const center = canvasSize.map (x => x / 2)
 	const radius = Math.min(...canvasSize) / 2
-	const angleIncrement = TAU / numPoints
-	const thirdAngle = TAU / 3
 	const rotationFactor = 2
 
 	for (let i = 0; i < numPoints; i++) {
-		let angle = i * angleIncrement;
+		let angle = i * TAU / numPoints;
 		result.push({
 			position: [
 				center[0] + radius * Math.cos(angle),
 				center[1] + radius * Math.sin(angle)
 			],
-			color: [-thirdAngle, 0, thirdAngle].map (channelOffset =>
+			color: [-TAU / 3, 0, TAU / 3].map (channelOffset =>
 				128 + Math.cos (rotationFactor * (angle + channelOffset)) * 128
 			)
 		});

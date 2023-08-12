@@ -55,9 +55,10 @@ const initializeChaosGame = (canvas, numPoints) => {
 
 	const history = []
 
-	const [Σ, Δ] = [
+	const [Σ, Δ, Π] = [
 		(x, y) => x + y,
-		(x, y) => x - y
+		(x, y) => x - y,
+		(x, y) => x * y
 	].map (fun => (history, depth = 1, offset) =>
 		mod (recurOp (fun) (depth) (history, offset), numPoints)
 	)
@@ -69,7 +70,8 @@ const initializeChaosGame = (canvas, numPoints) => {
 
 		if (
 			[].includes (Δ (history)) ||
-			[].includes (Σ (history))
+			[].includes (Σ (history)) ||
+			[].includes (Π (history))
 		) {
 			history.shift ();
 			continue

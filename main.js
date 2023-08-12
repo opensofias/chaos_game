@@ -22,14 +22,11 @@ const recurOp = (op, base) => (history, depth = 1, offset = 1, first = 0) =>
 		recurOp (op, base) (history, depth - 1, 1, first)
 	), base)
 
-const initializeChaosGame = (canvas, numPoints) => {
-	const context = canvas.getContext('2d')
-	const canvasSize = [canvas.width, canvas.height]
-	const imageData = new ImageData(...canvasSize);
+const makeTargetPoints = (
+		{canvasSize, numPoints}
+	) => {
+	const result = []
 
-	context.clearRect(0, 0, ...canvasSize);
-
-	const targetPoints = []
 	const center = canvasSize.map (x => x / 2)
 	const radius = Math.min(...canvasSize) / 2
 	const angleIncrement = (2 * Math.PI) / numPoints
@@ -38,7 +35,7 @@ const initializeChaosGame = (canvas, numPoints) => {
 
 	for (let i = 0; i < numPoints; i++) {
 		let angle = i * angleIncrement;
-		targetPoints.push({
+		result.push({
 			position: [
 				center[0] + radius * Math.cos(angle),
 				center[1] + radius * Math.sin(angle)
@@ -48,6 +45,17 @@ const initializeChaosGame = (canvas, numPoints) => {
 			)
 		});
 	}
+	return result
+}
+
+const initializeChaosGame = (canvas, numPoints) => {
+	const context = canvas.getContext('2d')
+	const canvasSize = [canvas.width, canvas.height]
+	const imageData = new ImageData(...canvasSize);
+
+	context.clearRect(0, 0, ...canvasSize);
+
+	const targetPoints = makeTargetPoints ({canvasSize, numPoints})
 
 	let currentPoint = {
 		position: canvasSize.map (x => x * Math.random()),

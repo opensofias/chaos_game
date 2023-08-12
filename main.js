@@ -22,6 +22,8 @@ const recurOp = (op, base) => (history, depth = 1, offset = 1, first = 0) =>
 		recurOp (op, base) (history, depth - 1, 1, first)
 	), base)
 
+const TAU = Math.PI * 2
+
 const makeTargetPoints = (
 		{canvasSize, numPoints}
 	) => {
@@ -29,8 +31,8 @@ const makeTargetPoints = (
 
 	const center = canvasSize.map (x => x / 2)
 	const radius = Math.min(...canvasSize) / 2
-	const angleIncrement = (2 * Math.PI) / numPoints
-	const thirdAngle = Math.PI * 2 / 3
+	const angleIncrement = TAU / numPoints
+	const thirdAngle = TAU / 3
 	const rotationFactor = 2
 
 	for (let i = 0; i < numPoints; i++) {

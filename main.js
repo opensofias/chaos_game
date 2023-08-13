@@ -24,14 +24,15 @@ const recurOp = (op, base) => (history, depth = 1, offset = 1, first = 0) =>
 
 const TAU = Math.PI * 2
 
-const makeTargetPoints = (
-		{canvasSize, numPoints}
-	) => {
+const makeTargetPoints = ({
+		canvasSize, numPoints,
+		rotationFactor = 2,
+		renderSize = 1
+	}) => {
 	const result = []
 
 	const center = canvasSize.map (x => x / 2)
-	const radius = Math.min(...canvasSize) / 2
-	const rotationFactor = 2
+	const radius = Math.min(...canvasSize) / 2 * renderSize
 
 	for (let i = 0; i < numPoints; i++) {
 		let angle = i * TAU / numPoints;

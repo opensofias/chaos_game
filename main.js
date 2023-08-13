@@ -67,7 +67,6 @@ const initializeChaosGame = (canvas, targetsAmount) => {
 
 	for (let i = 0; i < 2**20; i++) {
 		const choice = Math.floor(Math.random() * targetsAmount)
-		const targetPoint = targets[choice]
 		history.unshift (choice);
 
 		if (
@@ -81,11 +80,13 @@ const initializeChaosGame = (canvas, targetsAmount) => {
 
 		(history.length >= 16) && history.pop()
 
-		currentPoint = {
-			position: vecLerp (currentPoint.position, targetPoint.position),
-			color: vecLerp (currentPoint.color, targetPoint.color)
-		};
-
+		currentPoint =
+			Object.entries (currentPoint).reduce ((current, [prop, previous]) => 
+				({...current,
+					[prop]: vecLerp (previous, targets [choice] [prop])
+				}), {}
+			)
+		
 		drawPoint(imageData, currentPoint.position, currentPoint.color)
 	}
 

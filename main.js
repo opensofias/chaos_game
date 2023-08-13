@@ -80,12 +80,11 @@ const initializeChaosGame = (canvas, targetsAmount) => {
 
 		(history.length >= 16) && history.pop()
 
-		currentPoint =
-			Object.entries (currentPoint).reduce (
-				(current, [prop, previous]) => ({...current,
-					[prop]: vecLerp (previous, targets [choice] [prop])
-				}), {}
-			)
+		currentPoint = Object.entries (currentPoint).reduce (
+			(current, [prop, previous]) => ({...current,
+				[prop]: vecLerp (previous, targets [choice] [prop])
+			}), {}
+		)
 		
 		drawPoint(imageData, currentPoint.position, currentPoint.color)
 	}

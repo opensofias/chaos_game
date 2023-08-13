@@ -24,15 +24,15 @@ const recurOp = (op, base) => (history, depth = 1, offset = 1, first = 0) =>
 
 const TAU = Math.PI * 2
 
-const makeTargetPoints = ({
-		canvasSize, numPoints,
+const makeTargets = ({
+		canvasSize, targetsAmount,
 		rotationFactor = 2,
 		renderSize = 1
 	}) => {
 	const radius = Math.min(...canvasSize) / 2 * renderSize
 
 	return hyperIter (
-		[numPoints], ([idx]) => idx * TAU / numPoints
+		[targetsAmount], ([idx]) => idx * TAU / targetsAmount
 	).map (angle => ({
 		position: canvasSize.map ((size, dim) =>
 			size / 2 + radius * Math [['cos', 'sin'] [dim]] (angle)
@@ -43,14 +43,14 @@ const makeTargetPoints = ({
 	}))
 }
 
-const initializeChaosGame = (canvas, numPoints) => {
+const initializeChaosGame = (canvas, targetsAmount) => {
 	const context = canvas.getContext('2d')
 	const canvasSize = [canvas.width, canvas.height]
 	const imageData = new ImageData(...canvasSize);
 
 	context.clearRect(0, 0, ...canvasSize);
 
-	const targetPoints = makeTargetPoints ({canvasSize, numPoints})
+	const targets = makeTargets ({canvasSize, targetsAmount})
 
 	let currentPoint = {
 		position: canvasSize.map (x => x * Math.random()),
@@ -63,12 +63,12 @@ const initializeChaosGame = (canvas, numPoints) => {
 		(x, y) => x + y,
 		(x, y) => x - y,
 		(x, y) => x * y
-	].map (fun => (recurOp (fun, numPoints)))
+	].map (fun => (recurOp (fun, targetsAmount)))
 
 	for (let i = 0; i < 2**20; i++) {
-		const targetIndex = Math.floor(Math.random() * numPoints)
-		const targetPoint = targetPoints[targetIndex]
-		history.unshift (targetIndex);
+		const choice = Math.floor(Math.random() * targetsAmount)
+		const targetPoint = targets[choice]
+		history.unshift (choice);
 
 		if (
 			[].includes (Δ (history)) ||

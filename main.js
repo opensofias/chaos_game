@@ -31,17 +31,16 @@ const makeTargetPoints = ({
 	}) => {
 	const radius = Math.min(...canvasSize) / 2 * renderSize
 
-	return hyperIter ([numPoints], ([idx]) => {
-		const angle = idx * TAU / numPoints
-		return {
-			position: canvasSize.map ((size, dim) =>
-				size / 2 + radius * Math [['cos', 'sin'] [dim]] (angle)
-			),
-			color: [-TAU / 3, 0, TAU / 3].map (channelOffset =>
-				128 + Math.cos (rotationFactor * (angle + channelOffset)) * 128
-			)
-		}
-	})
+	return hyperIter (
+		[numPoints], ([idx]) => idx * TAU / numPoints
+	).map (angle => ({
+		position: canvasSize.map ((size, dim) =>
+			size / 2 + radius * Math [['cos', 'sin'] [dim]] (angle)
+		),
+		color: [-TAU / 3, 0, TAU / 3].map (channelOffset =>
+			128 + Math.cos (rotationFactor * (angle + channelOffset)) * 128
+		)
+	}))
 }
 
 const initializeChaosGame = (canvas, numPoints) => {

@@ -5,7 +5,7 @@ export const hyperIter = (size = [], fun = x => x) => {
 	const result = []
 	let carry = 0
 	while (!carry) {
-		result.push (fun (count))
+		result.push (fun ([...count]))
 
 		carry ++
 		size.forEach ((target, idx) => {

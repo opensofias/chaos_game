@@ -43,7 +43,10 @@ const makeTargets = ({
 	}))
 }
 
-const initializeChaosGame = (canvas, targetsAmount) => {
+const initializeChaosGame = (
+	canvas, targetsAmount,
+	lerpFactor = {position: .5, color: .5}
+) => {
 	const context = canvas.getContext('2d')
 	const canvasSize = [canvas.width, canvas.height]
 	const imageData = new ImageData(...canvasSize);
@@ -82,7 +85,7 @@ const initializeChaosGame = (canvas, targetsAmount) => {
 
 		currentPoint = Object.entries (currentPoint).reduce (
 			(current, [prop, previous]) => ({...current,
-				[prop]: vecLerp (previous, targets [choice] [prop])
+				[prop]: vecLerp (previous, targets [choice] [prop], lerpFactor [prop])
 			}), {}
 		)
 		

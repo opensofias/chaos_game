@@ -44,6 +44,14 @@ const makeTargets = ({
 	}))
 }
 
+const makeCanvas = (width, height) => {
+	const result = document.createElement ('canvas')
+	result.setAttribute ('width', width)
+	result.setAttribute ('height', height)
+	document.body.appendChild (result)
+	return result
+}
+
 const initializeChaosGame = (
 	canvas, config
 ) => {

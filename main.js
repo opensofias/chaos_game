@@ -1,4 +1,5 @@
 import { hyperIter } from "./tools.js";
+import { defaultCfg } from "./default.js";
 
 const vecLerp = (v1, v2, factor = .5) =>
 	v1.map ((_, idx) => 
@@ -44,16 +45,16 @@ const makeTargets = ({
 }
 
 const initializeChaosGame = (
-	canvas, targetsAmount,
-	lerpFactor = {position: .5, color: .5}
+	canvas, config
 ) => {
+	const {targetsAmount, lerpFactor} = config
 	const context = canvas.getContext('2d')
 	const canvasSize = [canvas.width, canvas.height]
 	const imageData = new ImageData(...canvasSize);
 
 	context.clearRect(0, 0, ...canvasSize);
 
-	const targets = makeTargets ({canvasSize, targetsAmount})
+	const targets = makeTargets ({...config, canvasSize})
 
 	let currentPoint = {
 		position: canvasSize.map (x => x * Math.random()),
@@ -97,4 +98,4 @@ const initializeChaosGame = (
 
 const canvas = document.getElementById('canvas');
 
-initializeChaosGame(canvas, 5);
+initializeChaosGame(canvas, {...defaultCfg});

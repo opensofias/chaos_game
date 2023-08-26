@@ -62,8 +62,6 @@ const renderChaosGame = ({context, targets, config}) => {
 	const {targetsAmount, lerpFactor, canvasSize} = config
 	const imageData = new ImageData(...canvasSize);
 
-	context.clearRect(0, 0, ...canvasSize);
-
 	let currentPoint = {
 		position: canvasSize.map (x => x * Math.random()),
 		color: [128, 128, 128]

@@ -7,8 +7,8 @@ const vecLerp = (v1, v2, factor = .5) =>
 		v2 [idx] * factor
 	)
 
-const drawPoint = (imageData, point, color) => {
-	const pixelIdx = ((0|point[1]) * imageData.width + (0|point[0])) * 4;
+const drawPoint = (imageData, {position, color}) => {
+	const pixelIdx = ((0|position[1]) * imageData.width + (0|position[0])) * 4;
 	[...color, 255].forEach ((val, idx) =>
 		imageData.data[pixelIdx + idx] = val
 	)
@@ -96,7 +96,7 @@ const renderChaosGame = ({context, targets, config}) => {
 			}), {}
 		)
 		
-		drawPoint(imageData, currentPoint.position, currentPoint.color)
+		drawPoint(imageData, currentPoint)
 	}
 
 	context.putImageData(imageData, 0, 0);

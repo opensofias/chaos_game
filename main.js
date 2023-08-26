@@ -59,7 +59,7 @@ const setupChaosGame = (config) => ({
 })
 
 const renderChaosGame = ({context, targets, config}) => {
-	const {targetsAmount, lerpFactor, canvasSize} = config
+	const {targetsAmount, lerpFactor, canvasSize, iterations} = config
 	const imageData = new ImageData(...canvasSize);
 
 	let currentPoint = {
@@ -75,7 +75,7 @@ const renderChaosGame = ({context, targets, config}) => {
 		(x, y) => x * y
 	].map (fun => (recurOp (fun, targetsAmount)))
 
-	for (let i = 0; i < 2**20; i++) {
+	for (let i = 0; i < iterations; i++) {
 		const choice = Math.floor(Math.random() * targetsAmount)
 		history.unshift (choice);
 

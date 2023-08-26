@@ -52,17 +52,17 @@ const makeCanvas = (width, height) => {
 	return result
 }
 
-const initializeChaosGame = (
-	canvas, config
-) => {
-	const {targetsAmount, lerpFactor} = config
-	const context = canvas.getContext('2d')
-	const canvasSize = [canvas.width, canvas.height]
+const setupChaosGame = (config) => ({
+	context: makeCanvas (...config.canvasSize).getContext('2d'),
+	targets: makeTargets ({...config}),
+	config
+})
+
+const renderChaosGame = ({context, targets, config}) => {
+	const {targetsAmount, lerpFactor, canvasSize} = config
 	const imageData = new ImageData(...canvasSize);
 
 	context.clearRect(0, 0, ...canvasSize);
-
-	const targets = makeTargets ({...config, canvasSize})
 
 	let currentPoint = {
 		position: canvasSize.map (x => x * Math.random()),
@@ -102,8 +102,8 @@ const initializeChaosGame = (
 	}
 
 	context.putImageData(imageData, 0, 0);
+
+	return {context, targets, config}
 }
 
-const canvas = document.getElementById('canvas');
-
-initializeChaosGame(canvas, {...defaultCfg});
+renderChaosGame (setupChaosGame ({...defaultCfg}));

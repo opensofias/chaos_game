@@ -16,11 +16,11 @@ const drawPoint = (imageData, {position, color}) => {
 
 const mod = (a, b) => (a % b + b) % b
 
-const recurOp = (op, base) => (history, depth = 1, offset = 1, first = 0) =>
+const recurOp = base => op => (history, depth = 1, offset = 1, first = 0) =>
 	depth == 0 ? history [first] :
 	mod (op (
-		recurOp (op, base) (history, depth - 1, 1, first + offset),
-		recurOp (op, base) (history, depth - 1, 1, first)
+		recurOp (base) (op) (history, depth - 1, 1, first + offset),
+		recurOp (base) (op) (history, depth - 1, 1, first)
 	), base)
 
 const TAU = Math.PI * 2
@@ -69,7 +69,7 @@ const renderChaosGame = ({context, targets, config, history, currentPoint}) => {
 
 	const [Σ, Δ, Π] = ['+','-','*']
 		.map (op => new Function ('x', 'y', 'return x' + op + 'y'))
-		.map (fun => (recurOp (fun, targetsAmount)))
+		.map (recurOp (targetsAmount))
 
 	for (let i = 0; i < iterations; i++) {
 		const choice = Math.floor(Math.random() * targetsAmount)

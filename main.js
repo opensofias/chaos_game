@@ -67,11 +67,9 @@ const renderChaosGame = ({context, targets, config, history, currentPoint}) => {
 	const {targetsAmount, lerpFactor, canvasSize, iterations} = config
 	const imageData = new ImageData(...canvasSize);
 
-	const [Σ, Δ, Π] = [
-		(x, y) => x + y,
-		(x, y) => x - y,
-		(x, y) => x * y
-	].map (fun => (recurOp (fun, targetsAmount)))
+	const [Σ, Δ, Π] = ['+','-','*']
+		.map (op => new Function ('x', 'y', 'return x' + op + 'y'))
+		.map (fun => (recurOp (fun, targetsAmount)))
 
 	for (let i = 0; i < iterations; i++) {
 		const choice = Math.floor(Math.random() * targetsAmount)

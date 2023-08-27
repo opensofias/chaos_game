@@ -4,5 +4,6 @@ export const defaultCfg = {
 	rotationFactor: 2,
 	renderSize: 1,
 	canvasSize: [2048, 2048],
-	iterations: 2**20
+	iterations: 2**20,
+	skipRender: 11,
 }

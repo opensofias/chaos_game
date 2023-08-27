@@ -63,7 +63,10 @@ const setupChaosGame = (config) => ({
 	config
 })
 
-const renderChaosGame = ({context, targets, config, history = [], currentPoint, skipRender = 0}) => {
+const renderChaosGame = ({
+	history = [], skipRender = 0,
+	context, targets, config, currentPoint
+}) => {
 	const {targetsAmount, lerpFactor, canvasSize, iterations} = config
 	const imageData = new ImageData(...canvasSize);
 
@@ -94,10 +97,7 @@ const renderChaosGame = ({context, targets, config, history = [], currentPoint, 
 				[prop]: vecLerp (previous, targets [choice] [prop], lerpFactor [prop])
 			}), {}
 		)
-		
-
 	}
-
 	context.putImageData(imageData, 0, 0);
 
 	return {context, targets, config, history, currentPoint}
